@@ -1,4 +1,4 @@
-**Fork From [luogantt/symmetry_on_stock](https://github.com/luogantt/symmetry_on_stock)**
+** Fork From [luogantt/symmetry_on_stock](https://github.com/luogantt/symmetry_on_stock) **
 # Windows
 ## 新建一空目录（如 venv ）
 ```
