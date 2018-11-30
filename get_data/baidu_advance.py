@@ -23,23 +23,23 @@ HEADERS = {
 
 class Baidu_advance:
 
-    def advanceSearch(self, site, keyWords=''):
+    def __advanceSearch(self, site, keyWords=''):
         """
         构造百度高级搜索 输入 获取的网站和 关键词 返回结果链接
         """
         newsite = 'site%3A' + site.replace(' ', '') + '%20' + keyWords.replace(" ", '')
         url = 'https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&tn=baidu&wd=' + newsite + '&oq='+ newsite + '&rsv_pq=faa075c70000d63a&rsv_t=1075iVsqlnDuVvD6gxOn2pbo4kPcmeJZgby%2BTcynBvPl%2Fvpim8afseEQdzc&rqlang=cn&rsv_enter=1&gpc=stf%3D1511922778%2C1543458778%7Cstftype%3D1&tfflag=1&si=' + site + '&ct=2097152'
-        print(url)
+        #print(url)
         return url
 
-    def getPageContent(self, url):
+    def __getPageContent(self, url):
         """获取每页的内容"""
         response = requests.get(url, headers = HEADERS)
         response.encoding = 'utf-8'
         content = response.text
         return content
 
-    def getNextPageUrl(self, content):
+    def __getNextPageUrl(self, content):
         """获取每页的10个链接"""
         soup = BeautifulSoup(content, 'lxml')
         try:
@@ -51,11 +51,11 @@ class Baidu_advance:
             return pageSet[:-1] #去掉最后一条
         except:
             print("没有获取到任何信息")
-            print("请手动检查条链接是否有效")
-            print(self.firstUrl)
+            print("请手动检查该条链接是否有效")
+            print(self.__firstUrl)
             exit(1)
 
-    def getItemsFromContent(self, content):
+    def __getItemsFromContent(self, content):
         """从 html 里面提取出新闻的链接"""
         soup = BeautifulSoup(content, 'lxml')
         try:
@@ -64,32 +64,31 @@ class Baidu_advance:
                 yield i.get('href')
         except:
             print("没有获取到任何信息")
-            print("请手动检查条链接是否有效")
-            print(self.firstUrl)
+            print("请手动检查该条链接是否有效")
+            print(self.__firstUrl)
             exit(1)
 
     def getUrl(self, site, numOfPage, keyWords=''):
-        self.numOfPage = numOfPage
-        self.firstUrl = self.advanceSearch(site, keyWords)
-        firstPage = self.getPageContent(self.firstUrl)
-        pagesUrl = self.getNextPageUrl(firstPage) #第一页的 10个链接
-        urls = [self.firstUrl] #我们需要的页数链接总数 第一页链接应该也得算上
+        self.__firstUrl = self.__advanceSearch(site, keyWords) #为了方便错误调试 设置为类方法
+        firstPage = self.__getPageContent(self.__firstUrl)
+        pagesUrl = self.__getNextPageUrl(firstPage) #第一页的 10个链接
+        urls = [self.__firstUrl] #我们需要的页数链接总数 第一页链接应该也得算上
         # 如果小于10
-        if self.numOfPage <= 10:
+        if numOfPage <= 10:
             urls = urls + pagesUrl
         else:
-            times = (self.numOfPage - 10) % 4 + 1#后面每页只能获取 4 条链接
+            times = (numOfPage - 10) % 4 + 1#后面每页只能获取 4 条链接
             for i in range(0, times):
-                lastPage = self.getPageContent(pagesUrl[-1]) #已经获取到链接的最后一页的链接
-                newUrls = self.getNextPageUrl(lastPage)[-4:] #只有后四条不与前面重复
+                lastPage = self.__getPageContent(pagesUrl[-1]) #已经获取到链接的最后一页的链接
+                newUrls = self.__getNextPageUrl(lastPage)[-4:] #只有后四条不与前面重复
                 urls = pagesUrl + newUrls
 
-        urls = urls[:self.numOfPage]
+        urls = urls[:numOfPage]
         #获取链接
         hrefs = []
         for url in urls:
-            content = self.getPageContent(url)
-            for href in self.getItemsFromContent(content):
+            content = self.__getPageContent(url)
+            for href in self.__getItemsFromContent(content):
                 hrefs.append(href)
         return hrefs
 
@@ -97,6 +96,8 @@ class Baidu_advance:
 if __name__ == '__main__':
     test = Baidu_advance()
 
-    hrefs = test.getUrl('caixin.com', 1, '好')
+    hrefs = test.getUrl('caixin.com', 1, '江西')
+    
     for i in hrefs:
         print(i)
+    
