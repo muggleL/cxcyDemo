@@ -14,7 +14,7 @@ HEADERS = {
 'Connection':'keep-alive'
 }
 
-class CaixinSpider:
+class Caixin_spider:
 
     ## 错误日志
     def __log(self, content):
@@ -91,7 +91,7 @@ class CaixinSpider:
 
 if __name__ == '__main__':
     from baidu_advance import Baidu_advance  # just for test
-    test = CaixinSpider()
+    test = Caixin_spider()
     baidu = Baidu_advance()
     urls = baidu.getUrl('finance.caixin.com', 20, '招商银行')
     contents = test.get(urls)

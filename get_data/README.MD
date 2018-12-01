@@ -24,7 +24,7 @@ urls = get.getUrl('caixin.com', 10, '工商银行'）
 
 ```python
 from baidu_advance import Baidu_advance  # just for test
-test = CaixinSpider()
+test = Caixin_spider()
 baidu = Baidu_advance()
 urls = baidu.getUrl('finance.caixin.com', 20, '招商银行')
 contents = test.get(urls)
