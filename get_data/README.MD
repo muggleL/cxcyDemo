@@ -33,3 +33,25 @@ for i in contents:
     f.write(i)
 f.close()
 ```
+
+## sina_spider.py
+
+新浪金融网爬虫
+
+输入: 新浪金融网链接
+
+输出： 用 yield 打包的新闻
+
+例：
+
+```python
+from baidu_advance import Baidu_advance  # just for test
+test = Sina_spider()
+baidu = Baidu_advance()
+urls = Baidu_advance().getUrl('finance.sina.com.cn', 10, '招行')
+contents = test.get(urls)
+f = open('sina_baidu_test.txt', 'a+')
+for i in contents:
+    f.write(i)
+f.close()
+```
