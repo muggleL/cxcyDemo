@@ -18,7 +18,7 @@ class Caixin_spider:
 
     ## 错误日志
     def __log(self, content):
-        log = open('error_log.txt', 'a+')
+        log = open('error_log.txt', 'a+', encoding='utf-8')
         log.writelines(content)
         log.close()
 
@@ -95,7 +95,7 @@ if __name__ == '__main__':
     baidu = Baidu_advance()
     urls = baidu.getUrl('finance.caixin.com', 20, '招商银行')
     contents = test.get(urls)
-    f = open('caixin_baidu_test.txt', 'a+')
+    f = open('caixin_baidu_test.txt', 'a+', encoding='utf-8')
     for i in contents:
         f.write(i)
     f.close()

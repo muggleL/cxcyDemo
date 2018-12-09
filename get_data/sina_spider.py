@@ -1,5 +1,3 @@
-
-
 import requests
 import re
 import time
@@ -83,7 +81,7 @@ if __name__ == '__main__':
     from baidu_advance import Baidu_advance
     urls = Baidu_advance().getUrl('finance.sina.com.cn', 10, '招行')
     contents = Sina_spider().get(urls)
-    f = open('sina_baidu_test2.txt', 'a+')
+    f = open('sina_baidu_test2.txt', 'a+', encoding='utf-8')
     for i in contents:
         f.write(i)
     f.close()
