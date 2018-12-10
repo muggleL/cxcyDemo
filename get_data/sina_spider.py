@@ -1,3 +1,5 @@
+# -*- coding:utf-8 -*-
+
 import requests
 import re
 import time
@@ -9,6 +11,10 @@ HEADERS = {
 }
 
 class Sina_spider:
+    def __init__(self, keys):
+        '''文章相关度， 用 、隔开‘'''
+        self.key = keys.split('、')
+
     def __getPage(self, url):
         """通过url 获取页面html"""
         print(url)
@@ -36,10 +42,10 @@ class Sina_spider:
         except:
             pass
             return
-        if "招商银行" in title or "招商" in title or "招行" in title:
-            return (title, c_time)
-        else:
-            return
+        for i in self.key:
+            if i in title:
+                return title, c_time
+        return
 
     def __getContent(self, html):
         """获取正文"""
@@ -80,8 +86,8 @@ class Sina_spider:
 if __name__ == '__main__':
     from baidu_advance import Baidu_advance
     urls = Baidu_advance().getUrl('finance.sina.com.cn', 10, '招行')
-    contents = Sina_spider().get(urls)
-    f = open('sina_baidu_test2.txt', 'a+', encoding='utf-8')
+    contents = Sina_spider('招行、招商银行、招商').get(urls)
+    f = open('sina_baidu_test2.txt', 'w+', encoding='utf-8')
     for i in contents:
         f.write(i)
     f.close()

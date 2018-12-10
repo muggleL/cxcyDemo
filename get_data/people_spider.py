@@ -10,7 +10,7 @@ HEADERS = {
 }
 class People_spider:
     def __init__(self, keys):
-        '''文章相关度， 用 逗号隔开‘'''
+        '''文章相关度， 用 、隔开‘'''
         self.key = keys.split('、')
 
     def __getPage(self, url):

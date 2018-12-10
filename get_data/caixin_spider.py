@@ -15,6 +15,9 @@ HEADERS = {
 }
 
 class Caixin_spider:
+    def __init__(self, keys):
+        '''文章相关度， 用 、隔开‘'''
+        self.key = keys.split('、')
 
     ## 错误日志
     def __log(self, content):
@@ -51,16 +54,16 @@ class Caixin_spider:
                 text = "这篇文章不符合要求，文章链接：" + self.url
                 print(text)
                 self.__log(text + '\n')
-        if "招商银行" in title or "招商" in title or "招行" in title: ## 标题里有关键字的文章， 一定是我们需要的文章 这可能会有遗漏， 不过暂时没有什么方法。
-            try:
-                re_titlecomment = re.compile(r'<div id="subhead" class="subhead">(.*?)</div>', re.S)
-                titlecomment = re.findall(re_titlecomment, html)
-                subhead = titlecomment[0].replace(' ', '').replace('\r\n', '').replace('\n', '')
-                # print(subhead)
-            except:
-                pass
-        else: return
-        return (time, title, subhead)
+        for i in self.key:
+            if i in title:## 标题里有关键字的文章， 一定是我们需要的文章 这可能会有遗漏， 不过暂时没有什么方法。##TODO 这里需要修改
+                try:
+                    re_titlecomment = re.compile(r'<div id="subhead" class="subhead">(.*?)</div>', re.S)
+                    titlecomment = re.findall(re_titlecomment, html)
+                    subhead = titlecomment[0].replace(' ', '').replace('\r\n', '').replace('\n', '')
+                    # print(subhead)
+                except:
+                    pass
+                return (time, title, subhead)
 
     ## 获取 正文 由于权限问题 只能获取到很小的一部分内容
     def __getContent(self, html):
@@ -91,11 +94,11 @@ class Caixin_spider:
 
 if __name__ == '__main__':
     from baidu_advance import Baidu_advance  # just for test
-    test = Caixin_spider()
+    test = Caixin_spider('招行、招商银行、招商')
     baidu = Baidu_advance()
-    urls = baidu.getUrl('finance.caixin.com', 20, '招商银行')
+    urls = baidu.getUrl('finance.caixin.com', 1, '招商银行')
     contents = test.get(urls)
-    f = open('caixin_baidu_test.txt', 'a+', encoding='utf-8')
+    f = open('caixin_baidu_test.txt', 'w+', encoding='utf-8')
     for i in contents:
         f.write(i)
     f.close()
