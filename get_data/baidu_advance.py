@@ -8,7 +8,16 @@ get = GetUrlInEachPage('baidu.com', 10, '测试')
 theUrl = get.getUrl
 
 theUrl 即包含了所有一年以内 的 baidu.com 上 以 ‘测试’ 为关键字 的通过百度搜索到的前10页所有的条目链接
+
+依赖：
+- requests 
+- bs4
+- lxml
+
+安装方法
+pip install requests, beautifulsoup4, lxml
 """
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -30,7 +39,7 @@ class Baidu_advance:
         print(site)
         print(keyWords)
         url= 'https://www.baidu.com/s?q1={}&rn=10&lm=360&ct=0&q6={}&tn=baiduadv'.format(keyWords, site)
-        print(url)
+        #print(url)
         return url
 
     def __getPageContent(self, url):
