@@ -36,8 +36,7 @@ class Baidu_advance:
         """
         构造百度高级搜索 输入 获取的网站和 关键词 返回结果链接
         """
-        print(site)
-        print(keyWords)
+        
         url= 'https://www.baidu.com/s?q1={}&rn=10&lm=360&ct=0&q6={}&tn=baiduadv'.format(keyWords, site)
         #print(url)
         return url
