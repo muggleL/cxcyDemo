@@ -27,9 +27,10 @@ class Baidu_advance:
         """
         构造百度高级搜索 输入 获取的网站和 关键词 返回结果链接
         """
-        newsite = 'site%3A' + site.replace(' ', '') + '%20' + keyWords.replace(" ", '')
-        url = 'https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&tn=baidu&wd=' + newsite + '&oq='+ newsite + '&rsv_pq=faa075c70000d63a&rsv_t=1075iVsqlnDuVvD6gxOn2pbo4kPcmeJZgby%2BTcynBvPl%2Fvpim8afseEQdzc&rqlang=cn&rsv_enter=1&gpc=stf%3D1511922778%2C1543458778%7Cstftype%3D1&tfflag=1&si=' + site + '&ct=2097152'
-        #print(url)
+        print(site)
+        print(keyWords)
+        url= 'https://www.baidu.com/s?q1={}&rn=10&lm=360&ct=0&q6={}&tn=baiduadv'.format(keyWords, site)
+        print(url)
         return url
 
     def __getPageContent(self, url):
